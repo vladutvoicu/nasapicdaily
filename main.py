@@ -21,7 +21,11 @@ with open('nasapic.jpg', 'wb') as handler:
 
 image = Image.open("./nasapic.jpg")
 image = image.convert("RGB")
-new_image = image.resize((1080, 1080))
+
+if image.size[0] > 1080 or image.size[1] > 1080:
+    new_image = image.resize((1080, 1080))
+else:
+    new_image = image
 new_image.save("nasapic.jpg")
 
 title = res["title"]
