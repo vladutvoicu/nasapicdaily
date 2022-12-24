@@ -3,6 +3,7 @@ import requests
 import json
 from dotenv import load_dotenv
 from instagrapi import Client
+from PIL import Image
 
 load_dotenv(".env")
 username = os.getenv("USER")
@@ -18,9 +19,18 @@ img_data = requests.get(f"{img_url}").content
 with open('nasapic.jpg', 'wb') as handler:
     handler.write(img_data)
 
+image = Image.open("./nasapic.jpg")
+image = image.convert("RGB")
+new_image = image.resize((1080, 1080))
+new_image.save("nasapic.jpg")
+
 title = res["title"]
 explanation = res["explanation"]
-copyright_ = res["copyright"]
+
+if res.get("copyright") != None:
+    copyright_ = res["copyright"]
+else:
+    copyright_ = "Unknown"
 
 cl = Client()
 cl.login(username, password)
